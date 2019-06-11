@@ -58,7 +58,7 @@ make install&&\
 cd ..&&\
 rm -rf GASNet-2019.3.0-build GASNet-2019.3.0-source GASNet-2019.3.0.tar.gz&&\
 echo "export PATH=\$PATH:$HOME/pkg/GASNet-2019.3.0/bin\n" >> $HOME/.bashrc&&\
-echo "export gasnet_prefix=\$PATH:$HOME/pkg/GASNet-2019.3.0\n" >> $HOME/.bashrc
+echo "export gasnet_prefix=$HOME/pkg/GASNet-2019.3.0\n" >> $HOME/.bashrc
 
 RUN cd $HOME&&\
 mkdir src&&\
