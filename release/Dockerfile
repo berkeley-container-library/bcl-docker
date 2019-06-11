@@ -2,7 +2,7 @@ FROM ubuntu
 MAINTAINER Benjamin Brock (brock@cs.berkeley.edu)
 
 RUN apt-get update -y && apt-get dist-upgrade -y
-RUN apt-get install tmux vim htop sudo wget libnuma-dev git -y
+RUN apt-get install tmux vim htop sudo wget libnuma-dev git autoconf libtool -y
 RUN apt-get install build-essential man-db manpages manpages-dev gcc-8 g++-8 -y
 RUN useradd -m ubuntu
 RUN usermod -aG sudo ubuntu
