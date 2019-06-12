@@ -9,6 +9,7 @@ fi
 
 for build in {release,debug,mpich,mpich-debug}
 do
+  cd $build
   docker build -t benbrock/bcl:$build .
   if [ $push -eq 1 ]
   then
