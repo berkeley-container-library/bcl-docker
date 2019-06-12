@@ -38,14 +38,7 @@ RUN cd $HOME&&\
 	make -j&&\
 	make install&&\
 	cd ..&&\
-	rm -rf openmpi-4.0.1-source openmpi-4.0.1-build openmpi-4.0.1.tar.gz&&\
-	echo "export PATH=\$PATH:$HOME/pkg/openmpi-4.0.1/bin\n" >> $HOME/.bashrc&&\
-	echo "export MANPATH=\$MANPATH:$HOME/pkg/openmpi-4.0.1/share/man\n" >> $HOME/.bashrc&&\
-	echo "export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH:$HOME/pkg/openmpi-4.0.1/lib\n" >> $HOME/.bashrc
-
-ENV PATH=${PATH}:${HOME}/pkg/openmpi-4.0.1/bin \
-	MANPATH=${MANPATH}:${HOME}/pkg/openmpi-4.0.1/share/man \
-	LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/pkg/openmpi-4.0.1/lib
+	rm -rf openmpi-4.0.1-source openmpi-4.0.1-build openmpi-4.0.1.tar.gz
 
 RUN cd $HOME&&\
 	cd pkg&&\
@@ -59,9 +52,12 @@ RUN cd $HOME&&\
 	make -j&&\
 	make install&&\
 	cd ..&&\
-	rm -rf GASNet-2019.3.0-build GASNet-2019.3.0-source GASNet-2019.3.0.tar.gz&&\
-	echo "export PATH=\$PATH:$HOME/pkg/GASNet-2019.3.0/bin\n" >> $HOME/.bashrc&&\
-	echo "export gasnet_prefix=\$PATH:$HOME/pkg/GASNet-2019.3.0\n" >> $HOME/.bashrc
+	rm -rf GASNet-2019.3.0-build GASNet-2019.3.0-source GASNet-2019.3.0.tar.gz
+
+ENV PATH=$PATH:/home/ubuntu/pkg/openmpi-4.0.1/bin:/home/ubuntu/pkg/GASNet-2019.3.0/bin \
+	MANPATH=$MANPATH:/home/ubuntu/pkg/openmpi-4.0.1/share/man \
+	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/ubuntu/pkg/openmpi-4.0.1/lib \
+    gasnet_prefix=/home/ubuntu/pkg/GASNet-2019.3.0
 
 RUN cd $HOME&&\
 	mkdir src&&\

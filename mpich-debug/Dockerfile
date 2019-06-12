@@ -23,7 +23,7 @@ RUN cd $HOME&&\
 	mv mpich-3.3.1 mpich-3.3.1-source&&\
 	mkdir mpich-3.3.1&&\
 	cd mpich-3.3.1-build&&\
-	../mpich-3.3.1-source/configure --prefix=$HOME/pkg/mpich-3.3.1 --disable-fortran&&\
+	../mpich-3.3.1-source/configure --prefix=$HOME/pkg/mpich-3.3.1 --disable-fortran --enable-g=debug --enable-error-checking=all --enable-error-messages=all&&\
 	make -j&&\
 	make install&&\
 	cd ..&&\
@@ -37,7 +37,7 @@ RUN cd $HOME&&\
 	mv GASNet-2019.3.0 GASNet-2019.3.0-source&&\
 	mkdir GASNet-2019.3.0&&\
 	cd GASNet-2019.3.0-build&&\
-	../GASNet-2019.3.0-source/configure --prefix=$HOME/pkg/GASNet-2019.3.0&&\
+	../GASNet-2019.3.0-source/configure --prefix=$HOME/pkg/GASNet-2019.3.0 --enable-debug&&\
 	make -j&&\
 	make install&&\
 	cd ..&&\
@@ -66,7 +66,7 @@ RUN cd $HOME&&\
 	cd SOS-1.4.3-source&&\
 	./autogen.sh&&\
 	cd ../SOS-1.4.3-build&&\
-	../SOS-1.4.3-source/configure --prefix=$HOME/pkg/SOS-1.4.3 --with-ofi=$HOME/pkg/libfabric-1.7.1 --disable-fortran --enable-pmi-simple&&\
+	../SOS-1.4.3-source/configure --prefix=$HOME/pkg/SOS-1.4.3 --with-ofi=$HOME/pkg/libfabric-1.7.1 --disable-fortran --enable-pmi-simple --enable-error-checking --enable-debug&&\
 	make -j&&\
 	make install&&\
 	cd ..&&\
