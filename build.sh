@@ -7,7 +7,7 @@ then
   push=1
 fi
 
-for build in {release,debug,mpich,mpich-debug}
+for build in {latest,debug,mpich,mpich-debug}
 do
   cd $build
   docker build -t benbrock/bcl:$build .
