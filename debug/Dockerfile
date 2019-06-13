@@ -40,6 +40,10 @@ RUN cd $HOME&&\
 	cd ..&&\
 	rm -rf openmpi-4.0.1-source openmpi-4.0.1-build openmpi-4.0.1.tar.gz
 
+ENV PATH=$PATH:/home/ubuntu/pkg/openmpi-4.0.1/bin \
+	MANPATH=$MANPATH:/home/ubuntu/pkg/openmpi-4.0.1/share/man \
+	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/ubuntu/pkg/openmpi-4.0.1/lib
+
 RUN cd $HOME&&\
 	cd pkg&&\
 	wget "https://gasnet.lbl.gov/EX/GASNet-2019.3.0.tar.gz"&&\
@@ -54,9 +58,7 @@ RUN cd $HOME&&\
 	cd ..&&\
 	rm -rf GASNet-2019.3.0-build GASNet-2019.3.0-source GASNet-2019.3.0.tar.gz
 
-ENV PATH=$PATH:/home/ubuntu/pkg/openmpi-4.0.1/bin:/home/ubuntu/pkg/GASNet-2019.3.0/bin \
-	MANPATH=$MANPATH:/home/ubuntu/pkg/openmpi-4.0.1/share/man \
-	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/ubuntu/pkg/openmpi-4.0.1/lib \
+ENV PATH=$PATH:/home/ubuntu/pkg/GASNet-2019.3.0/bin \
     gasnet_prefix=/home/ubuntu/pkg/GASNet-2019.3.0
 
 RUN cd $HOME&&\

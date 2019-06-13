@@ -29,6 +29,10 @@ RUN cd $HOME&&\
 	cd ..&&\
 	rm -rf mpich-3.3.1-source mpich-3.3.1-build mpich-3.3.1.tar.gz
 
+ENV PATH=$PATH:/home/ubuntu/pkg/mpich-3.3.1/bin \
+	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/ubuntu/pkg/mpich-3.3.1/lib \
+	MANPATH=$MANPATH:/home/ubuntu/pkg/mpich-3.3.1/share/man
+
 RUN cd $HOME&&\
 	cd pkg&&\
 	wget "https://gasnet.lbl.gov/EX/GASNet-2019.3.0.tar.gz"&&\
@@ -42,6 +46,9 @@ RUN cd $HOME&&\
 	make install&&\
 	cd ..&&\
 	rm -rf GASNet-2019.3.0-build GASNet-2019.3.0-source GASNet-2019.3.0.tar.gz
+
+ENV PATH=$PATH:/home/ubuntu/pkg/GASNet-2019.3.0/bin \
+    gasnet_prefix=/home/ubuntu/pkg/GASNet-2019.3.0
 
 RUN cd $HOME&&\
 	cd pkg&&\
@@ -72,10 +79,9 @@ RUN cd $HOME&&\
 	cd ..&&\
 	rm -rf SOS-1.4.3-build SOS-1.4.3-source v1.4.3.tar.gz
 
-ENV PATH=$PATH:/home/ubuntu/pkg/mpich-3.3.1/bin:/home/ubuntu/pkg/GASNet-2019.3.0/bin:/home/ubuntu/pkg/SOS-1.4.3/bin \
-	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/ubuntu/pkg/mpich-3.3.1/lib:/home/ubuntu/pkg/SOS-1.4.3/lib \
-	MANPATH=$MANPATH:/home/ubuntu/pkg/mpich-3.3.1/share/man:/home/ubuntu/pkg/SOS-1.4.3/share/man \
-	gasnet_prefix=/home/ubuntu/pkg/GASNet-2019.3.0
+ENV PATH=$PATH:/home/ubuntu/pkg/SOS-1.4.3/bin \
+	LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/ubuntu/pkg/SOS-1.4.3/lib \
+	MANPATH=$MANPATH:/home/ubuntu/pkg/SOS-1.4.3/share/man
 
 RUN cd $HOME&&\
 	mkdir src&&\
