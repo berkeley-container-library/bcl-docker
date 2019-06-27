@@ -38,7 +38,8 @@ RUN cd $HOME&&\
 	make -j&&\
 	make install&&\
 	cd ..&&\
-	rm -rf openmpi-4.0.1-source openmpi-4.0.1-build openmpi-4.0.1.tar.gz
+	rm -rf openmpi-4.0.1-source openmpi-4.0.1-build openmpi-4.0.1.tar.gz&&\
+	echo "rmaps_base_oversubscribe = true" >> $HOME/pkg/openmpi-4.0.1/etc/openmpi-mca-params.conf
 
 ENV PATH=$PATH:/home/ubuntu/pkg/openmpi-4.0.1/bin \
 	MANPATH=$MANPATH:/home/ubuntu/pkg/openmpi-4.0.1/share/man \
@@ -59,7 +60,7 @@ RUN cd $HOME&&\
 	rm -rf GASNet-2019.3.0-build GASNet-2019.3.0-source GASNet-2019.3.0.tar.gz
 
 ENV PATH=$PATH:/home/ubuntu/pkg/GASNet-2019.3.0/bin \
-    gasnet_prefix=/home/ubuntu/pkg/GASNet-2019.3.0
+	gasnet_prefix=/home/ubuntu/pkg/GASNet-2019.3.0
 
 RUN cd $HOME&&\
 	mkdir src&&\
