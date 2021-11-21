@@ -4,7 +4,7 @@ RUN mkdir -p /opt/build && mkdir -p /opt/dist
 
 RUN apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    ca-certificates curl
+    ca-certificates curl libnuma-dev build-essential file ssh
 
 # install cmake
 RUN cd /opt/build && \
@@ -100,18 +100,66 @@ intel-oneapi-itac \
 intel-oneapi-mpi-devel \
 --
 
+RUN apt-get update && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    tmux vim htop sudo wget git
+
+RUN useradd -ms /bin/bash ubuntu &&\
+    usermod -aG sudo ubuntu &&\
+	echo 'ubuntu:ubuntu' | chpasswd
+
+USER ubuntu
+WORKDIR /home/ubuntu
+
 # setvars.sh environment variables
-RUN env > default_env_vars; \
+RUN cd $HOME && \
+env > default_env_vars; \
 . /opt/intel/oneapi/setvars.sh; \
 env > env_vars; \
 diff default_env_vars env_vars \
 | grep ">" | sed  s/..// \
 | sort \
 | sed 's/^/export /' | sed "s/=/='/" | sed "s/$/'/" \
->> /root/.oneapi_env_vars; \
+>> $HOME/.oneapi_env_vars; \
 # clean up
 rm *env_vars; \
-rm -rf /var/lib/apt/lists/*
+echo "ubuntu" | sudo -S rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["bash", "-c", "source /root/.oneapi_env_vars && \"$@\"", "bash"]
+# Install UCX
+RUN cd $HOME && \
+mkdir -p pkg && cd pkg && \
+wget "https://github.com/openucx/ucx/releases/download/v1.11.2/ucx-1.11.2.tar.gz" && \
+tar -xf ucx-1.11.2.tar.gz && \
+mkdir ucx-1.11.2-build && cd ucx-1.11.2-build && \
+../ucx-1.11.2/configure && \
+make -j 4 && \
+echo "ubuntu" | sudo -S make install && \
+cd .. && rm -rf *.tar.gz *-build ucx-1.11.2
 
+# Install Open MPI
+RUN cd $HOME && \
+mkdir -p pkg && cd pkg && \
+wget "https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.1.tar.gz" && \
+tar -xf openmpi-4.1.1.tar.gz && \
+mkdir openmpi-4.1.1-build && cd openmpi-4.1.1-build && \
+../openmpi-4.1.1/configure --with-ucx --enable-oshmem && \
+make -j4 && \
+echo "ubuntu" | sudo -S make install && \
+cd .. && rm -rf *.tar.gz *-build openmpi-4.1.1
+
+# Install GASNet-EX
+RUN cd $HOME && \
+mkdir -p pkg && cd pkg && \
+wget "https://gasnet.lbl.gov/EX/GASNet-2021.9.0.tar.gz" && \
+tar -xf GASNet-2021.9.0.tar.gz && \
+mv GASNet-2021.9.0 GASNet-2021.9.0-source && \
+mkdir GASNet-2021.9.0 && \
+mkdir GASNet-2021.9.0-build && cd GASNet-2021.9.0-build && \
+../GASNet-2021.9.0-source/configure --enable-ucx --prefix=$HOME/pkg/GASNet-2021.9.0 && \
+make -j4 && \
+echo "ubuntu" | sudo -S make install && \
+cd .. && rm -rf *.tar.gz *-build *-source && \
+echo "" >> $HOME/.bashrc && \
+echo "export gasnet_prefix=$HOME/pkg/GASNet-2021.9.0" >> $HOME/.bashrc
+
+ENTRYPOINT ["bash", "-c", "source /home/ubuntu/.oneapi_env_vars && \"$@\"", "bash"]
