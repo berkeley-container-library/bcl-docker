@@ -4,7 +4,7 @@ RUN mkdir -p /opt/build && mkdir -p /opt/dist
 
 RUN apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    ca-certificates curl libnuma-dev build-essential file ssh
+    ca-certificates curl
 
 # install cmake
 RUN cd /opt/build && \
@@ -102,7 +102,7 @@ intel-oneapi-mpi-devel \
 
 RUN apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    tmux vim htop sudo wget git
+    tmux vim htop sudo wget git file ssh libnuma-dev build-essential
 
 RUN useradd -ms /bin/bash ubuntu &&\
     usermod -aG sudo ubuntu &&\
