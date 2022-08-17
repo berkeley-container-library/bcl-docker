@@ -34,7 +34,7 @@ RUN cd $HOME                          && \
     wget https://apt.llvm.org/llvm.sh && \
     chmod +x llvm.sh                  && \
     ./llvm.sh 13                      && \
-    apt-get install -y libclang-13-dev clang-tools-13 libomp-13-dev llvm-13-dev lld-13 libc++-13-dev && \
+    apt-get install -y libclang-13-dev clang-tools-13 libomp-13-dev llvm-13-dev lld-13 libc++-13-dev libc++abi-13-dev && \
     rm llvm.sh
 
 # Install Boost (required by hipSYCL)
