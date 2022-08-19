@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.4.3-devel-ubuntu20.04
+FROM nvidia/cuda:11.7.1-devel-ubuntu22.04
 
 # Update Container
 RUN apt-get update -y
@@ -9,7 +9,7 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=America/Los_Angeles apt-get -y install tzd
 RUN apt-get install -y software-properties-common
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test
 RUN apt-get update -y
-RUN apt-get install -y gcc-11 g++11 libstdc++-11-dev
+RUN apt-get install -y g++
 
 # Install Intel oneAPI
 RUN apt-get install -y wget
